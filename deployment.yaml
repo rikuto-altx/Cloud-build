@@ -1,22 +1,21 @@
-apiVersion: extensions/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cb-sample-server
 spec:
-  replicas: 2
+  replicas: 3
   selector:
     matchLabels:
-      name: cb-sample-server
+      app: cb-sample-server
   template:
     metadata:
       labels:
-        name: cb-sample-server
-        cluster_name: cb-sample-server
+        app: cb-sample-server
     spec:
       containers:
-      - name: cb-sample-server
-        image: gcr.io/deep-counter-cloud/cb-sample-server:latest
+      - name: my-container
+        image: gcr.io/YOUR_PROJECT_ID/cb-sample-server:latest
+        tty: true
+        stdin: true
         ports:
-        - containerPort: 8080
-          protocol: TCP
-  revisionHistoryLimit: 100
+        - containerPort: 80
