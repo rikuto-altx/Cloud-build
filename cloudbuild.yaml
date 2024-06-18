@@ -1,21 +1,17 @@
 steps:
 - name: 'gcr.io/cloud-builders/git'
   args: ['clone', 'https://github.com/rikuto-altx/Cloud-build.git']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['container', 'clusters', 'create', 'deep-conter-cloud-test', '--zone', 'asia-northeast1-a']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['build', '-t', 'gcr.io/dep-counter-cloud/my-app:latest', '.']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/dep-counter-cloud/my-app:latest']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['container', 'clusters', 'get-credentials', 'deep-counter-cloud-test', '--zone', 'asia-northeast1-a']
 - name: 'gcr.io/cloud-builders/kubectl'
   args:
   - 'apply'
   - '-f'
   - 'deployment.yaml'
   env:
-  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-aa'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=deep-counter-cloud-test'
+  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=cloudbuildtest'
 images:
-- 'gcr.io/dep-counter-cloud/my-app:latest'
+- 'gcr.io/dep-counter-cloud/your-image:latest'
