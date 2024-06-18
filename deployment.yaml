@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: cb-sample-server
-        image: gcr.io/deep-counter-cloud-test/cb-sample-server:latest
+        image: gcr.io/deep-counter-cloud/cb-sample-server:latest
         ports:
         - containerPort: 8080
           protocol: TCP
