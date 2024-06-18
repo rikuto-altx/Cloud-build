@@ -17,9 +17,13 @@ steps:
   - --zone=$_ZONE
   - --project=$PROJECT_ID
 # アプリのデプロイ設定
-- name: 'gcr.io/cloud-builders/kubectl'
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:latest'
+  entrypoint: 'kubectl'
   args:
-  - 'apply'
-  - '--filename=deployment.yaml'
+    - 'apply'
+    - '--filename=deployment.yaml'
+  env:
+    - 'CLOUDSDK_COMPUTE_ZONE=$_ZONE'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=cb-sample-server'
 
 timeout: 1000s
