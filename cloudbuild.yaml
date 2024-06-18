@@ -1,6 +1,4 @@
 steps:
-- name: 'gcr.io/cloud-builders/git'
-  args: ['clone', 'https://github.com/rikuto-altx/Cloud-build.git', '.']
 # Dockerfileを利用してアプリのテストビルドとイメージのビルドを行う。$_VERSIONはトリガーの変数として設定します。
 # $PROJECT_IDには使用中のプロジェクトIDが自動的に挿入されます
 - name: 'gcr.io/cloud-builders/docker'
