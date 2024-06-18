@@ -1,21 +1,22 @@
-apiVersion: apps/v1
+apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: deep-conter-cloud-test
-  labels:
-    app: deep-conter-cloud-test
+  name: cb-sample-server
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: deep-conter-cloud-test
+      name: cb-sample-server
   template:
     metadata:
       labels:
-        app: deep-conter-cloud-test
+        name: cb-sample-server
+        cluster_name: cb-sample-server
     spec:
       containers:
-      - name: deep-conter-cloud-test-container
-        image: gcr.io/dep-counter-cloud/my-app:latest
+      - name: cb-sample-server
+        image: gcr.io/deep-counter-cloud/cb-sample-server:latest
         ports:
-        - containerPort: 80
+        - containerPort: 8080
+          protocol: TCP
+  revisionHistoryLimit: 100

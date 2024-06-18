@@ -1,17 +1,25 @@
 steps:
-- name: 'gcr.io/cloud-builders/git'
-  args: ['clone', 'https://github.com/rikuto-altx/Cloud-build.git']
+# Dockerfileを利用してアプリのテストビルドとイメージのビルドを行う。$_VERSIONはトリガーの変数として設定します。
+# $PROJECT_IDには使用中のプロジェクトIDが自動的に挿入されます
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/dep-counter-cloud/my-app:latest', '.']
+  args: ['build', '-f', 'Dockerfile', '--tag=gcr.io/$PROJECT_ID/cb-sample-server:$_VERSION', '.']
+# 作成したcb-sample-serverイメージをPUSHする
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/dep-counter-cloud/my-app:latest']
+  args: ["push", "gcr.io/$PROJECT_ID/cb-sample-server:$_VERSION"]
+# Clusterを取得。$_ZONEはトリガーの変数として設定します。
+- name: 'gcr.io/cloud-builders/gcloud'
+  args:
+  - beta
+  - container
+  - clusters
+  - get-credentials
+  - cb-sample-server
+  - --zone=$_ZONE
+  - --project=$PROJECT_ID
+# アプリのデプロイ設定
 - name: 'gcr.io/cloud-builders/kubectl'
   args:
   - 'apply'
-  - '-f'
-  - 'deployment.yaml'
-  env:
-  - 'CLOUDSDK_COMPUTE_ZONE=asia-northeast1-a'
-  - 'CLOUDSDK_CONTAINER_CLUSTER=cloudbuildtest'
-images:
-- 'gcr.io/dep-counter-cloud/your-image:latest'
+  - '--filename=deployment.yaml'
+
+timeout: 1000s
