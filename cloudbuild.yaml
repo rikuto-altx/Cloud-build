@@ -9,7 +9,6 @@ steps:
 # Clusterを取得。$_ZONEはトリガーの変数として設定します。
 - name: 'gcr.io/cloud-builders/gcloud'
   args:
-  - beta
   - container
   - clusters
   - get-credentials

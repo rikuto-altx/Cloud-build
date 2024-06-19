@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: my-container
-        image: gcr.io/YOUR_PROJECT_ID/cb-sample-server:latest
+        image: gcr.io/deep-counter/cb-sample-server:latest
         tty: true
         stdin: true
         ports:
